@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/dist/semantic.css">
     <link rel="stylesheet" href="../static/css/me.css">
+    <link rel="stylesheet" href="../static/lib/editormd/css/editormd.min.css">
     <title>博客发布</title>
 </head>
 <body>
@@ -72,7 +73,10 @@
             </div>
 
             <div class="field">
-                <textarea name="content" placeholder="博客内容" id="" cols="30" rows="10"></textarea>
+                <div id="md-content" style="z-index: 1 !important;">
+                    <textarea name="content" placeholder="博客内容" style="display: none;"></textarea>
+                </div>
+
             </div>
             <div class="two fields">
                 <div class="field">
@@ -108,7 +112,7 @@
 
             <div class="field">
                 <div class="ui left labeled input">
-                    <label  class="ui teal basic label">首图</label>
+                    <label class="ui teal basic label">首图</label>
                     <input type="text" name="indexPicture" placeholder="首图引用地址">
                 </div>
             </div>
@@ -208,8 +212,20 @@
 
 <script src="../static/js/jquery-3.1.1.min.js"></script>
 <script src="../static/dist/semantic.js"></script>
+<script src="../static/lib/editormd/editormd.min.js"></script>
 
 <script>
+    // 初始化markdown编辑器
+    var contentEditor;
+    $(function () {
+        contentEditor = editormd("md-content", {
+            width: "100%",
+            height: 640,
+            syncScrolling: "single",
+            path: "../static/lib/editormd/lib/"
+        })
+    });
+
     $('.menu.toggle').click(function () {
         $('.m-item').toggleClass('m-mobile-hide');
         //toggleClass 如果有该类名则去掉，若无则加上
@@ -217,12 +233,12 @@
     $('.ui.dropdown').dropdown();
     // 表单验证
     $('.ui.form').form({
-        fields:{
-            title:{
-                identifier:'title',
-                rules:[{
-                    type:'empty',
-                    prompt:'标题：请输入博客标题',
+        fields: {
+            title: {
+                identifier: 'title',
+                rules: [{
+                    type: 'empty',
+                    prompt: '标题：请输入博客标题',
                 }]
             }
         }
